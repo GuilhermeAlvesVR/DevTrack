@@ -4,6 +4,9 @@ namespace DevTrack.Models
 {
     public class GitHubEvent
     {
+        [JsonPropertyName("id")]
+        public string Id { get; set; }
+
         [JsonPropertyName("type")]
         public string Type { get; set; }
 
@@ -11,18 +14,23 @@ namespace DevTrack.Models
         public DateTime CreatedAt { get; set; }
 
         [JsonPropertyName("repo")]
-        public GitHubEventRepo Repo { get; set; }
+        public GitHubEventRepo? Repo { get; set; }
 
-        public string TypeDisplay =>
-            Type switch
+        public string TypeDisplay
+        {
+            get
             {
-                "PushEvent" => "Push realizado",
-                "CreateEvent" => "Repositório ou branch criado",
-                "WatchEvent" => "Repositório estrelado",
-                "ForkEvent" => "Repositório forkado",
-                "PublicEvent" => "Repositório tornou-se público",
-                _ => "Atividade no GitHub"
-            };
+                return Type switch
+                {
+                    "PushEvent" => "Push realizado",
+                    "CreateEvent" => "Repositório ou branch criado",
+                    "PublicEvent" => "Repositório tornou-se público",
+                    "WatchEvent" => "Repositório favoritado",
+                    "ForkEvent" => "Fork realizado",
+                    _ => Type
+                };
+            }
+        }
     }
 
     public class GitHubEventRepo
