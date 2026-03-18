@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "DevTrack";
+}
+
+<div class="search-wrapper">
+    <div class="search-box">
+        <h1 class="search-title">GitHub Profile Analyzer</h1>
+
+        <p class="search-subtitle">
+            Analise qualquer perfil do GitHub e descubra métricas, atividade e insights automáticos
+        </p>
+
+        <form method="get" action="/Home/Dashboard" class="search-form">
+            <input type="text"
+                   name="username"
+                   placeholder="Digite o usuário do GitHub (ex: torvalds)"
+                   required
+                   class="search-input" />
+
+            <button type="submit" class="search-button">
+                Analisar perfil
+            </button>
+        </form>
+
+        <div class="search-examples">
+            <span class="muted">Exemplos:</span>
+            <a href="/Home/Dashboard?username=torvalds">torvalds</a>
+            <span>|</span>
+            <a href="/Home/Dashboard?username=gaearon">gaearon</a>
+            <span>|</span>
+            <a href="/Home/Dashboard?username=octocat">octocat</a>
+        </div>
+    </div>
+</div>
