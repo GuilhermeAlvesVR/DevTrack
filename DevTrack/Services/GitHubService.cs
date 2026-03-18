@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Net.Http.Headers;
+using System.Text.Json;
 using DevTrack.Models;
 
 namespace DevTrack.Services
@@ -13,6 +14,14 @@ namespace DevTrack.Services
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri("https://api.github.com/");
             _httpClient.DefaultRequestHeaders.Add("User-Agent", "DevTrackApp");
+
+            var token = Environment.GetEnvironmentVariable("GITHUB_TOKEN");
+
+            if (!string.IsNullOrWhiteSpace(token))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("token", token);
+            }
 
             _jsonOptions = new JsonSerializerOptions
             {
@@ -57,7 +66,7 @@ namespace DevTrack.Services
         {
             return repos
                 .Where(r => !string.IsNullOrWhiteSpace(r.Language))
-                .GroupBy(r => r.Language)
+                .GroupBy(r => r.Language!)
                 .ToDictionary(g => g.Key, g => g.Count());
         }
     }
